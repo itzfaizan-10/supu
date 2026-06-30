@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>I'm So Sorry, Supu 💕</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --rose:    #C1526A;
+    --blush:   #F7D9DF;
+    --dark:    #1a0a10;
+    --mid:     #3d1a24;
+    --cream:   #fff8f9;
+    --gold:    #d4956a;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--dark);
+    color: var(--cream);
+    font-family: 'Lato', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  /* ── Stars background ── */
+  #stars-canvas {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.55;
+  }
+
+  /* ── Hero ── */
+  .hero {
+    position: relative;
+    z-index: 1;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 2rem 1.5rem;
+  }
+
+  .hearts-float {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .heart-particle {
+    position: absolute;
+    bottom: -60px;
+    font-size: 1.4rem;
+    animation: floatUp linear infinite;
+    opacity: 0;
+  }
+
+  @keyframes floatUp {
+    0%   { transform: translateY(0) scale(0.8); opacity: 0; }
+    10%  { opacity: 0.7; }
+    90%  { opacity: 0.5; }
+    100% { transform: translateY(-110vh) scale(1.2) rotate(20deg); opacity: 0; }
+  }
+
+  .badge {
+    display: inline-block;
+    font-size: 0.72rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--gold);
+    border: 1px solid var(--gold);
+    border-radius: 100px;
+    padding: 0.35rem 1.1rem;
+    margin-bottom: 2rem;
+    animation: fadeDown 1s ease both;
+  }
+
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.6rem, 8vw, 5.5rem);
+    line-height: 1.12;
+    font-weight: 400;
+    animation: fadeDown 1s 0.2s ease both;
+  }
+
+  .hero-title em {
+    font-style: italic;
+    color: var(--rose);
+  }
+
+  .hero-sub {
+    margin-top: 1.4rem;
+    max-width: 480px;
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: #e8c8ce;
+    animation: fadeDown 1s 0.4s ease both;
+  }
+
+  .scroll-hint {
+    margin-top: 3.5rem;
+    font-size: 0.78rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+    opacity: 0.7;
+    animation: bounce 2s 1.5s ease infinite, fadeDown 1s 0.8s ease both;
+  }
+
+  @keyframes bounce {
+    0%,100% { transform: translateY(0); }
+    50%      { transform: translateY(6px); }
+  }
+
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── Divider ── */
+  .divider {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 1rem;
+    font-size: 1.3rem;
+    color: var(--rose);
+    letter-spacing: 0.5rem;
+    opacity: 0.6;
+  }
+
+  /* ── Sections ── */
+  section {
+    position: relative;
+    z-index: 1;
+    padding: 5rem 1.5rem;
+    max-width: 680px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1rem;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 5vw, 2.8rem);
+    font-weight: 400;
+    line-height: 1.25;
+    margin-bottom: 1.5rem;
+  }
+
+  .section-title em { font-style: italic; color: var(--rose); }
+
+  p {
+    font-size: 1rem;
+    line-height: 1.9;
+    color: #ddbbc4;
+    margin-bottom: 1.2rem;
+  }
+
+  /* ── Reasons cards ── */
+  .cards {
+    display: grid;
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+
+  .card {
+    background: linear-gradient(135deg, #2b0f1a, #3d1a24);
+    border: 1px solid #5c2035;
+    border-radius: 16px;
+    padding: 1.5rem 1.8rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 1.1rem;
+    transition: transform 0.3s, border-color 0.3s;
+  }
+
+  .card:hover {
+    transform: translateY(-4px);
+    border-color: var(--rose);
+  }
+
+  .card-icon {
+    font-size: 1.8rem;
+    flex-shrink: 0;
+    margin-top: 0.1rem;
+  }
+
+  .card-text { font-size: 0.97rem; color: #e4c0c9; line-height: 1.75; }
+
+  /* ── Promise list ── */
+  .promise-list {
+    list-style: none;
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .promise-list li {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 1rem;
+    color: #e4c0c9;
+    line-height: 1.7;
+  }
+
+  .promise-list li::before {
+    content: "✦";
+    color: var(--rose);
+    font-size: 0.9rem;
+    flex-shrink: 0;
+  }
+
+  /* ── Envelope / letter ── */
+  .letter-wrap {
+    background: linear-gradient(160deg, #2b0f1a, #1a0a10);
+    border: 1px solid #5c2035;
+    border-radius: 20px;
+    padding: 2.5rem 2rem;
+    margin-top: 1.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .letter-wrap::before {
+    content: "❝";
+    position: absolute;
+    top: -0.5rem;
+    left: 1.2rem;
+    font-size: 6rem;
+    color: var(--rose);
+    opacity: 0.12;
+    font-family: 'Playfair Display', serif;
+    line-height: 1;
+  }
+
+  .letter-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.08rem;
+    font-style: italic;
+    line-height: 2;
+    color: #f0d0d8;
+  }
+
+  .letter-sig {
+    margin-top: 1.5rem;
+    text-align: right;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    color: var(--rose);
+  }
+
+  /* ── Distance counter ── */
+  .counter-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4rem;
+    margin: 2.5rem 0;
+    padding: 2rem;
+    background: linear-gradient(135deg, #2b0f1a, #3d1a24);
+    border: 1px solid #5c2035;
+    border-radius: 20px;
+  }
+
+  .counter-value {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3rem, 10vw, 5rem);
+    font-weight: 700;
+    color: var(--rose);
+    line-height: 1;
+  }
+
+  .counter-label {
+    font-size: 0.78rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    opacity: 0.8;
+  }
+
+  .counter-sub {
+    font-size: 0.9rem;
+    color: #ddbbc4;
+    margin-top: 0.3rem;
+    text-align: center;
+  }
+
+  /* ── Final CTA ── */
+  .final {
+    text-align: center;
+    padding: 5rem 1.5rem 7rem;
+  }
+
+  .final .section-title { font-size: clamp(2rem, 6vw, 3.4rem); }
+
+  .cta-btn {
+    display: inline-block;
+    margin-top: 2rem;
+    padding: 1rem 2.4rem;
+    background: var(--rose);
+    color: #fff;
+    font-size: 0.95rem;
+    font-family: 'Lato', sans-serif;
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    text-decoration: none;
+    border-radius: 100px;
+    transition: background 0.3s, transform 0.3s;
+    cursor: pointer;
+    border: none;
+  }
+
+  .cta-btn:hover {
+    background: #a8405a;
+    transform: scale(1.04);
+  }
+
+  .cta-note {
+    margin-top: 1.2rem;
+    font-size: 0.85rem;
+    color: #8a5060;
+  }
+
+  /* ── Confetti burst ── */
+  #confetti-canvas {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 999;
+    display: none;
+  }
+
+  /* ── Scroll reveal ── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 480px) {
+    .card { padding: 1.2rem; }
+    .letter-wrap { padding: 1.8rem 1.3rem; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  }
+</style>
+</head>
+<body>
+
+<canvas id="stars-canvas"></canvas>
+<canvas id="confetti-canvas"></canvas>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hearts-float" id="hearts-float"></div>
+  <span class="badge">A message from my heart, Supu 💌</span>
+  <h1 class="hero-title">I'm <em>truly</em><br>sorry, Supu.</h1>
+  <p class="hero-sub">Distance already makes things hard. The last thing I ever want is to add to that pain. Please keep reading — this is just for you, Supu.</p>
+  <span class="scroll-hint">↓ scroll ↓</span>
+</div>
+
+<div class="divider">♥ ♥ ♥</div>
+
+<!-- WHY SORRY -->
+<section class="reveal">
+  <p class="section-label">What I did wrong</p>
+  <h2 class="section-title">I hurt you,<br>and that <em>breaks me.</em></h2>
+  <p>I know I made a mistake. I know my actions or my words stung, and you have every right to feel angry. Your feelings are completely valid, and I'm not here to make excuses — only to say: I see it, I own it, and I am sorry.</p>
+  <div class="cards">
+    <div class="card"><span class="card-icon">💔</span><p class="card-text">I should have been more thoughtful with my words and actions. You deserved better from me, and I failed that in this moment.</p></div>
+    <div class="card"><span class="card-icon">📵</span><p class="card-text">The distance between us makes every misunderstanding feel twice as heavy. I should be the one making it feel lighter — not heavier.</p></div>
+    <div class="card"><span class="card-icon">🤐</span><p class="card-text">Instead of communicating better, I let something fester. That wasn't fair to you, and I understand why you're upset.</p></div>
+  </div>
+</section>
+
+<!-- LETTER -->
+<section class="reveal">
+  <p class="section-label">From the bottom of my heart</p>
+  <h2 class="section-title">A letter<br><em>just for you</em></h2>
+  <div class="letter-wrap">
+    <p class="letter-text">
+      My dearest Supu,<br><br>
+      Every day that passes without hearing your real laugh or feeling your presence beside me is already its own kind of ache. So knowing that I've added anger on top of that distance — it genuinely hurts me too.<br><br>
+      You are not just my partner, Supu. You are my calm, my favourite conversation, my reason to look forward to every notification. The thought that I've made you feel otherwise, even for a second, is something I cannot let go without fighting to make right.<br><br>
+      I am sorry. Not because I have to say it — but because I mean it with everything I have. You mean everything to me.
+    </p>
+    <p class="letter-sig">— Yours, always 🌹</p>
+  </div>
+</section>
+
+<!-- DISTANCE COUNTER -->
+<section class="reveal" style="text-align:center;">
+  <p class="section-label">Despite the miles between us</p>
+  <h2 class="section-title">This love travels<br><em>every kilometre</em></h2>
+  <div class="counter-wrap">
+    <span class="counter-value" id="days-counter">0</span>
+    <span class="counter-label">days I've loved you</span>
+    <p class="counter-sub">And every single one of them matters more than my mistakes.</p>
+  </div>
+  <p>Long distance asks so much of both of us. Through every time zone, every unanswered call at midnight, every missed moment — you've stayed. That means everything to me. Please don't let one bad moment undo all that we've built.</p>
+</section>
+
+<!-- PROMISES -->
+<section class="reveal">
+  <p class="section-label">What changes now</p>
+  <h2 class="section-title">My promises<br><em>to you</em></h2>
+  <p>An apology without change is just noise. Here is what I commit to:</p>
+  <ul class="promise-list">
+    <li>I will listen more and assume less — especially across distance where tone is so easy to misread.</li>
+    <li>I will tell you what's on my mind instead of letting silence grow into a wall.</li>
+    <li>I will check in on you, not just with "hey" but with real, genuine care for how your day feels.</li>
+    <li>I will never let the kilometers make me lazy with this love.</li>
+    <li>I will keep showing up — because you are worth every extra effort.</li>
+  </ul>
+</section>
+
+<!-- FINAL -->
+<section class="final reveal">
+  <h2 class="section-title">Supu, you are my<br><em>favourite person.</em></h2>
+  <p style="max-width:460px;margin:0 auto 0.5rem;">No argument, no distance, no bad day changes that. I love you, Supu. I'm sorry. And I'm not going anywhere.</p>
+  <button class="cta-btn" onclick="burstConfetti()">💕 Accept my apology</button>
+  <p class="cta-note">You can stay mad a little longer — I'll still be here. 🌙</p>
+</section>
+
+<script>
+// ── Stars ──
+(function() {
+  const c = document.getElementById('stars-canvas');
+  const ctx = c.getContext('2d');
+  let stars = [];
+  function resize() { c.width = window.innerWidth; c.height = window.innerHeight; }
+  resize();
+  window.addEventListener('resize', resize);
+  for (let i = 0; i < 180; i++) {
+    stars.push({ x: Math.random(), y: Math.random(), r: Math.random() * 1.4 + 0.3, o: Math.random(), s: Math.random() * 0.005 + 0.001 });
+  }
+  function draw() {
+    ctx.clearRect(0, 0, c.width, c.height);
+    stars.forEach(s => {
+      s.o += s.s;
+      if (s.o > 1 || s.o < 0) s.s *= -1;
+      ctx.beginPath();
+      ctx.arc(s.x * c.width, s.y * c.height, s.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(255,200,210,${s.o})`;
+      ctx.fill();
+    });
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+// ── Floating hearts ──
+(function() {
+  const container = document.getElementById('hearts-float');
+  const emojis = ['💕','💗','🌹','💌','✨','💓'];
+  function spawn() {
+    const el = document.createElement('span');
+    el.className = 'heart-particle';
+    el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+    el.style.left = Math.random() * 100 + '%';
+    const dur = 7 + Math.random() * 8;
+    el.style.animationDuration = dur + 's';
+    el.style.animationDelay = Math.random() * 3 + 's';
+    el.style.fontSize = (1 + Math.random() * 1.2) + 'rem';
+    container.appendChild(el);
+    setTimeout(() => el.remove(), (dur + 3) * 1000);
+  }
+  setInterval(spawn, 900);
+  for (let i = 0; i < 8; i++) setTimeout(spawn, i * 400);
+})();
+
+// ── Days counter ──
+(function() {
+  const target = 365;
+  let current = 0;
+  const el = document.getElementById('days-counter');
+  const interval = setInterval(() => {
+    current += 7;
+    if (current >= target) { current = target; clearInterval(interval); }
+    el.textContent = current;
+  }, 20);
+})();
+
+// ── Scroll reveal ──
+(function() {
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+})();
+
+// ── Confetti burst ──
+function burstConfetti() {
+  const canvas = document.getElementById('confetti-canvas');
+  canvas.style.display = 'block';
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  const ctx = canvas.getContext('2d');
+  const colors = ['#C1526A','#F7D9DF','#d4956a','#fff0f3','#e87c96','#f9b8c8'];
+  const pieces = Array.from({length: 140}, () => ({
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height - canvas.height,
+    w: 6 + Math.random() * 8,
+    h: 4 + Math.random() * 6,
+    color: colors[Math.floor(Math.random() * colors.length)],
+    vx: (Math.random() - 0.5) * 4,
+    vy: 2 + Math.random() * 4,
+    rot: Math.random() * 360,
+    rv: (Math.random() - 0.5) * 6
+  }));
+  let frame = 0;
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    pieces.forEach(p => {
+      p.x += p.vx; p.y += p.vy; p.rot += p.rv;
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.rot * Math.PI / 180);
+      ctx.fillStyle = p.color;
+      ctx.fillRect(-p.w/2, -p.h/2, p.w, p.h);
+      ctx.restore();
+    });
+    frame++;
+    if (frame < 120) requestAnimationFrame(draw);
+    else { ctx.clearRect(0, 0, canvas.width, canvas.height); canvas.style.display = 'none'; }
+  }
+  draw();
+
+  // Update button
+  const btn = document.querySelector('.cta-btn');
+  btn.textContent = '🥰 Thank you for forgiving me';
+  btn.style.background = '#3d8a5c';
+  btn.onclick = null;
+}
+</script>
+</body>
+</html>
